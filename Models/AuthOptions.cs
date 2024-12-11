@@ -8,6 +8,7 @@ using System.Text;
 
 namespace Shlyapnikova_lr.Models
 {
+
     internal class AuthOptions
     {
         public static string Issuer => "SAA";
