@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shlyapnikova_lr.Data;
 
@@ -11,9 +12,11 @@ using Shlyapnikova_lr.Data;
 namespace Shlyapnikova_lr.Migrations
 {
     [DbContext(typeof(Shlyapnikova_lrContext))]
-    partial class Shlyapnikova_lrContextModelSnapshot : ModelSnapshot
+    [Migration("20241218020424_UpdConnections")]
+    partial class UpdConnections
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,6 +57,8 @@ namespace Shlyapnikova_lr.Migrations
 
                     b.HasKey("StudentId");
 
+                    b.HasIndex("VolunteerId");
+
                     b.ToTable("Student");
                 });
 
@@ -64,10 +69,6 @@ namespace Shlyapnikova_lr.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VolunteerId"));
-
-                    b.Property<string>("StudentIds")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VolunteerGroup")
                         .IsRequired()
@@ -86,6 +87,20 @@ namespace Shlyapnikova_lr.Migrations
                     b.HasKey("VolunteerId");
 
                     b.ToTable("Volunteer");
+                });
+
+            modelBuilder.Entity("Shlyapnikova_lr.Models.Student", b =>
+                {
+                    b.HasOne("Shlyapnikova_lr.Models.Volunteer", "Volunteer")
+                        .WithMany("Students")
+                        .HasForeignKey("VolunteerId");
+
+                    b.Navigation("Volunteer");
+                });
+
+            modelBuilder.Entity("Shlyapnikova_lr.Models.Volunteer", b =>
+                {
+                    b.Navigation("Students");
                 });
 #pragma warning restore 612, 618
         }

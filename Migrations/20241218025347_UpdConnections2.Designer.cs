@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shlyapnikova_lr.Data;
 
@@ -11,9 +12,11 @@ using Shlyapnikova_lr.Data;
 namespace Shlyapnikova_lr.Migrations
 {
     [DbContext(typeof(Shlyapnikova_lrContext))]
-    partial class Shlyapnikova_lrContextModelSnapshot : ModelSnapshot
+    [Migration("20241218025347_UpdConnections2")]
+    partial class UpdConnections2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

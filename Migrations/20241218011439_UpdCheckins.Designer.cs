@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shlyapnikova_lr.Data;
 
@@ -11,9 +12,11 @@ using Shlyapnikova_lr.Data;
 namespace Shlyapnikova_lr.Migrations
 {
     [DbContext(typeof(Shlyapnikova_lrContext))]
-    partial class Shlyapnikova_lrContextModelSnapshot : ModelSnapshot
+    [Migration("20241218011439_UpdCheckins")]
+    partial class UpdCheckins
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,9 +52,6 @@ namespace Shlyapnikova_lr.Migrations
                     b.Property<float>("StudentPhone")
                         .HasColumnType("real");
 
-                    b.Property<int?>("VolunteerId")
-                        .HasColumnType("int");
-
                     b.HasKey("StudentId");
 
                     b.ToTable("Student");
@@ -64,10 +64,6 @@ namespace Shlyapnikova_lr.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VolunteerId"));
-
-                    b.Property<string>("StudentIds")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VolunteerGroup")
                         .IsRequired()

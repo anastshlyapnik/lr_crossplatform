@@ -32,7 +32,7 @@ namespace Shlyapnikova_lr.Controllers
 
         // GET: api/Students/5
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
             var student = await _context.Student.FindAsync(id);
@@ -90,7 +90,7 @@ namespace Shlyapnikova_lr.Controllers
 
         // DELETE: api/Students/5
         [HttpDelete("{id}")]
-        //[Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteStudent(int id)
         {
             var student = await _context.Student.FindAsync(id);
@@ -108,6 +108,7 @@ namespace Shlyapnikova_lr.Controllers
 
         // GET: api/Students/Status/{status}
         [HttpGet("Status/{status}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudentsByStatus(int status)
         {
             var students = await _context.Student.Where(s => s.Status == status).ToListAsync();
@@ -120,9 +121,91 @@ namespace Shlyapnikova_lr.Controllers
         }
 
 
+        // PUT: api/Students/CheckInStart/{id}
+        [HttpPut("CheckInStart/{id}")]
+        [Authorize]
+        public async Task<IActionResult> SetCheckInStart(int id)
+        {
+            var student = await _context.Student.FindAsync(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            student.CheckInStart = DateTime.UtcNow; // Записываем текущее время (UTC)
+            _context.Entry(student).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!StudentExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok(student); // Возвращаем обновлённого студента
+        }
+
+        // PUT: api/Students/CheckInEnd/{id}
+        [HttpPut("CheckInEnd/{id}")]
+        [Authorize]
+        public async Task<IActionResult> SetCheckInEnd(int id)
+        {
+            var student = await _context.Student.FindAsync(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            // Убедимся, что CheckInStart установлен
+            if (!student.CheckInStart.HasValue)
+            {
+                return BadRequest("CheckInStart is not set. Cannot calculate duration.");
+            }
+
+            // Установим текущее время как CheckInEnd
+            student.CheckInEnd = DateTime.UtcNow;
+
+            // Рассчитаем разницу между CheckInStart и CheckInEnd
+            student.CheckInTime = student.CheckInEnd.Value - student.CheckInStart.Value;
+
+            _context.Entry(student).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!StudentExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok(new
+            {
+                student.StudentId,
+                CheckInStart = student.CheckInStart,
+                CheckInEnd = student.CheckInEnd,
+                CheckInTime = student.CheckInTime
+            }); // Возвращаем обновлённые данные
+        }
+
         // PUT: api/Students/ChangeStatus/5
         [HttpPut("ChangeStatus/{id}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> ChangeStatus(int id, [FromBody] int newStatus)
         {
             var student = await _context.Student.FindAsync(id);

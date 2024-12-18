@@ -42,6 +42,7 @@ namespace Shlyapnikova_lr.Controllers
             return AuthOptions.GenerateToken();
         }
         [HttpGet("token/secret")]
+        [Authorize(Roles = "admin")]
         public object GetAdminToken()
         {
             return AuthOptions.GenerateToken(true);

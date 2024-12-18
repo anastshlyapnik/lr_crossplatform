@@ -1,4 +1,6 @@
-﻿namespace Shlyapnikova_lr.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Shlyapnikova_lr.Models
 {
     public class Volunteer
     {
@@ -8,5 +10,6 @@
         public string VolunteerGroup { get; set; }
         public int VolunteerPriority { get; set; }
 
+        public List<int> StudentIds { get; set; } = new List<int>();
     }
 }
