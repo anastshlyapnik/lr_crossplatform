@@ -6,7 +6,7 @@
         public string VolunteerName { get; set; }
         public float VolunteerPhone { get; set; }
         public string VolunteerGroup { get; set; }
-        public string VolunteerPriority { get; set; }
+        public int VolunteerPriority { get; set; }
 
     }
 }

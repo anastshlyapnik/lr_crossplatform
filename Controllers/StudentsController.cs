@@ -32,7 +32,7 @@ namespace Shlyapnikova_lr.Controllers
 
         // GET: api/Students/5
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
             var student = await _context.Student.FindAsync(id);
@@ -46,7 +46,6 @@ namespace Shlyapnikova_lr.Controllers
         }
 
         // PUT: api/Students/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> PutStudent(int id, Student student)
@@ -91,7 +90,7 @@ namespace Shlyapnikova_lr.Controllers
 
         // DELETE: api/Students/5
         [HttpDelete("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> DeleteStudent(int id)
         {
             var student = await _context.Student.FindAsync(id);
@@ -105,6 +104,55 @@ namespace Shlyapnikova_lr.Controllers
 
             return NoContent();
         }
+
+
+        // GET: api/Students/Status/{status}
+        [HttpGet("Status/{status}")]
+        public async Task<ActionResult<IEnumerable<Student>>> GetStudentsByStatus(int status)
+        {
+            var students = await _context.Student.Where(s => s.Status == status).ToListAsync();
+            if (students == null || students.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return students;
+        }
+
+
+        // PUT: api/Students/ChangeStatus/5
+        [HttpPut("ChangeStatus/{id}")]
+        //[Authorize]
+        public async Task<IActionResult> ChangeStatus(int id, [FromBody] int newStatus)
+        {
+            var student = await _context.Student.FindAsync(id);
+            //if (student == null)
+            //{
+            //    return NotFound();
+            //}
+
+            student.Status = newStatus;
+            _context.Entry(student).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!StudentExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
 
         private bool StudentExists(int id)
         {

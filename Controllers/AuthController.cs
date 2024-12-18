@@ -31,6 +31,7 @@ namespace Shlyapnikova_lr.Controllers
             return AuthOptions.GenerateToken(user.IsAdmin);
         }
         [HttpGet("users")]
+        [Authorize(Roles = "admin")]
         public List<User> GetUsers()
         {
             return SharedData.Users;

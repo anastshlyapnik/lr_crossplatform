@@ -24,7 +24,7 @@ namespace Shlyapnikova_lr.Controllers
 
         // GET: api/Volunteers
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<IEnumerable<Volunteer>>> GetVolunteer()
         {
             return await _context.Volunteer.ToListAsync();
@@ -32,7 +32,7 @@ namespace Shlyapnikova_lr.Controllers
 
         // GET: api/Volunteers/5
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<Volunteer>> GetVolunteer(int id)
         {
             var volunteer = await _context.Volunteer.FindAsync(id);
@@ -48,7 +48,7 @@ namespace Shlyapnikova_lr.Controllers
         // PUT: api/Volunteers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> PutVolunteer(int id, Volunteer volunteer)
         {
             if (id != volunteer.VolunteerId)
@@ -80,7 +80,7 @@ namespace Shlyapnikova_lr.Controllers
         // POST: api/Volunteers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<Volunteer>> PostVolunteer(Volunteer volunteer)
         {
             _context.Volunteer.Add(volunteer);
@@ -91,7 +91,7 @@ namespace Shlyapnikova_lr.Controllers
 
         // DELETE: api/Volunteers/5
         [HttpDelete("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> DeleteVolunteer(int id)
         {
             var volunteer = await _context.Volunteer.FindAsync(id);
@@ -105,6 +105,22 @@ namespace Shlyapnikova_lr.Controllers
 
             return NoContent();
         }
+
+
+        // GET: api/Volunteers/Priority/{priority}
+        [HttpGet("Priority/{priority}")]
+        //[Authorize]
+        public async Task<ActionResult<IEnumerable<Volunteer>>> GetVolunteersByPriority(int priority)
+        {
+            var volunteers = await _context.Volunteer.Where(v => v.VolunteerPriority == priority).ToListAsync();
+            if (volunteers == null || !volunteers.Any())
+            {
+                return NotFound();
+            }
+
+            return volunteers;
+        }
+
 
         private bool VolunteerExists(int id)
         {

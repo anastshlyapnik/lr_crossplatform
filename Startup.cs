@@ -45,6 +45,19 @@ namespace Shlyapnikova_lr
 
                     ValidateLifetime = true,
                 };
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+                        return Task.CompletedTask;
+                    },
+                    OnTokenValidated = context =>
+                    {
+                        Console.WriteLine("Token validated successfully");
+                        return Task.CompletedTask;
+                    }
+                };
             }
             );
             services.AddControllers();
@@ -56,8 +69,9 @@ namespace Shlyapnikova_lr
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
-
             //don't do it in real production code!!!
             app.UseCors(cpb => cpb
                 .SetIsOriginAllowed(_ => true)
@@ -70,8 +84,9 @@ namespace Shlyapnikova_lr
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
