@@ -1,0 +1,570 @@
+{
+	"info": {
+		"_postman_id": "93a8321c-eda6-4781-a0ad-cad9df614e91",
+		"name": "Backend_Shl",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38334738"
+	},
+	"item": [
+		{
+			"name": "get users list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7169/api/Auth/users",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7169",
+					"path": [
+						"api",
+						"Auth",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authorization",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluIiwibmJmIjoxNzMzOTE1MDk3LCJleHAiOjE3NjU0NTEwOTcsImlzcyI6IlNBQSIsImF1ZCI6IkFQSWNsaWVudHMifQ.hr1L3mB_a71xs3PlMVH-0Q9MtfjyR5ntA9UIyJtlwtk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"login\": \"admin\",\r\n  \"password\": \"21232f297a57a5a743894a0e4a801fc3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7169/api/Auth/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7169",
+					"path": [
+						"api",
+						"Auth",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/Auth/token",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Auth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get secret token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/auth/token/secret",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"token",
+						"secret"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get students list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluIiwibmJmIjoxNzM0NDY1NDI3LCJleHAiOjE3NjYwMDE0MjcsImlzcyI6IlNBQSIsImF1ZCI6IkFQSWNsaWVudHMifQ.ibR8NARXkI8HGRb-aBLjrWm2Qs-tb7sOA9XfN28w-Eg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Students",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post students",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluIiwibmJmIjoxNzM0NDY1NDI3LCJleHAiOjE3NjYwMDE0MjcsImlzcyI6IlNBQSIsImF1ZCI6IkFQSWNsaWVudHMifQ.ibR8NARXkI8HGRb-aBLjrWm2Qs-tb7sOA9XfN28w-Eg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"studentId\": 0,\r\n  \"studentName\": \"string\",\r\n  \"checkInStart\": null,\r\n  \"checkInEnd\": null,\r\n  \"checkInTime\": null,\r\n  \"studentPhone\": 0,\r\n  \"status\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Students",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all students by status",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Students/Status/{{status}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Students",
+						"Status",
+						"{{status}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get student by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluIiwibmJmIjoxNzM0NDY1NDI3LCJleHAiOjE3NjYwMDE0MjcsImlzcyI6IlNBQSIsImF1ZCI6IkFQSWNsaWVudHMifQ.ibR8NARXkI8HGRb-aBLjrWm2Qs-tb7sOA9XfN28w-Eg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/Students/{{id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Students",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "put student by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluIiwibmJmIjoxNzM0NDY1NDI3LCJleHAiOjE3NjYwMDE0MjcsImlzcyI6IlNBQSIsImF1ZCI6IkFQSWNsaWVudHMifQ.ibR8NARXkI8HGRb-aBLjrWm2Qs-tb7sOA9XfN28w-Eg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"studentId\": 1,\r\n  \"studentName\": \"string\",\r\n  \"checkInStart\": \"2024-12-17T23:51:21.157Z\",\r\n  \"checkInEnd\": \"2024-12-17T23:51:21.157Z\",\r\n  \"checkInTime\": \"2024-12-17T23:51:21.157Z\",\r\n  \"studentPhone\": 100,\r\n  \"status\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Students/{{id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Students",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "set checkin start",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/Students/CheckInStart/{{id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Students",
+						"CheckInStart",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "set checkin end",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/Students/CheckInEnd/{{id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Students",
+						"CheckInEnd",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assign student to volunteer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Volunteers/AssignStudent/{{id}}/{{volId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Volunteers",
+						"AssignStudent",
+						"{{id}}",
+						"{{volId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change student's status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "5",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Students/ChangeStatus/{{id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Students",
+						"ChangeStatus",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete student by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/Students/{id}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Students",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get volunteers list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/Volunteers",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Volunteers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post volunteers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"volunteerId\": 0,\r\n  \"volunteerName\": \"Dinara\",\r\n  \"volunteerPhone\": 103,\r\n  \"volunteerGroup\": \"as2105\",\r\n  \"volunteerPriority\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Volunteers",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Volunteers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "put volunteer by id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/Volunteers/{id}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Volunteers",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get volunteer by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/Volunteers/{{volId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Volunteers",
+						"{{volId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get volunteers by priority",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/Volunteers/Priority/{{priority}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Volunteers",
+						"Priority",
+						"{{priority}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete volunteer",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/Volunteers/{id}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Volunteers",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "https://localhost:7169/",
+			"type": "string"
+		}
+	]
+}

@@ -6,32 +6,37 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 using Shlyapnikova_lr.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+
 
 namespace Shlyapnikova_lr.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController
+    public class AuthController:ControllerBase
     {
         public struct LoginData
         {
             public string login { get; set; }
             public string password { get; set; }
         }
+       
         [HttpPost]
         public object GetToken([FromBody] LoginData ld)
         {
             var user = SharedData.Users.FirstOrDefault(u => u.Login == ld.login && u.Password == ld.password);
             if (user == null)
             {
-                //Response.StatusCode = 401;
-                return new { message = "wrong login/password, try again" };
+                HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return new { message = "Неправильный логин или пароль" };
             }
             return AuthOptions.GenerateToken(user.IsAdmin);
         }
         [HttpGet("users")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public List<User> GetUsers()
         {
             return SharedData.Users;

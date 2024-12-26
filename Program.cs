@@ -14,10 +14,19 @@ namespace Shlyapnikova_lr
             
             //CreateHostBuilder(args).Build().Run();
             var builder = WebApplication.CreateBuilder(args);
+
             builder.Services.AddDbContext<Shlyapnikova_lrContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("Shlyapnikova_lrContext") ?? throw new InvalidOperationException("Connection string 'Shlyapnikova_lrContext' not found.")));
             // Add services to the container.
-
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin", policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200") // URL вашего Angular приложения
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -51,7 +60,7 @@ namespace Shlyapnikova_lr
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("AllowSpecificOrigin");
             app.UseHttpsRedirection();
 
             app.UseAuthentication();

@@ -24,7 +24,7 @@ namespace Shlyapnikova_lr.Controllers
 
         // GET: api/Students
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudent()
         {
             return await _context.Student.ToListAsync();
@@ -172,6 +172,7 @@ namespace Shlyapnikova_lr.Controllers
 
             // Установим текущее время как CheckInEnd
             student.CheckInEnd = DateTime.UtcNow;
+            student.Status=3;
 
             // Рассчитаем разницу между CheckInStart и CheckInEnd
             student.CheckInTime = student.CheckInEnd.Value - student.CheckInStart.Value;
