@@ -1,9 +1,14 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Shlyapnikova_lr.Data;
 using Shlyapnikova_lr.Models;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using OfficeOpenXml;
+
 
 namespace Shlyapnikova_lr
 {
@@ -16,7 +21,11 @@ namespace Shlyapnikova_lr
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddDbContext<Shlyapnikova_lrContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("Shlyapnikova_lrContext") ?? throw new InvalidOperationException("Connection string 'Shlyapnikova_lrContext' not found.")));
+                options.UseNpgsql(builder.Configuration.GetConnectionString("Shlyapnikova_lrContext")));
+
+
+            //builder.Services.AddDbContext<Shlyapnikova_lrContext>(options =>
+                //options.UseSqlServer(builder.Configuration.GetConnectionString("Shlyapnikova_lrContext") ?? throw new InvalidOperationException("Connection string 'Shlyapnikova_lrContext' not found.")));
             // Add services to the container.
             builder.Services.AddCors(options =>
             {
@@ -48,6 +57,7 @@ namespace Shlyapnikova_lr
                             ValidateIssuerSigningKey = true,
                         };
                     });
+            
 
             var app = builder.Build();
 
@@ -70,7 +80,8 @@ namespace Shlyapnikova_lr
 
             app.Run();
 
-            
+
+
         }
 
         //public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Shlyapnikova_lr.Data;
@@ -11,9 +12,11 @@ using Shlyapnikova_lr.Data;
 namespace Shlyapnikova_lr.Migrations
 {
     [DbContext(typeof(Shlyapnikova_lrContext))]
-    partial class Shlyapnikova_lrContextModelSnapshot : ModelSnapshot
+    [Migration("20250516032013_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

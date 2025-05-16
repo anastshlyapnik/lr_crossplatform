@@ -15,6 +15,5 @@ namespace Shlyapnikova_lr.Data
         }
 
         public DbSet<Shlyapnikova_lr.Models.Student> Student { get; set; } = default!;
-        public DbSet<Shlyapnikova_lr.Models.Volunteer> Volunteer { get; set; } = default!;
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using Shlyapnikova_lr.Data;
 using Shlyapnikova_lr.Models;
 
@@ -32,7 +33,7 @@ namespace Shlyapnikova_lr.Controllers
 
         // GET: api/Students/5
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
             var student = await _context.Student.FindAsync(id);
@@ -237,7 +238,45 @@ namespace Shlyapnikova_lr.Controllers
             return NoContent();
         }
 
+        [HttpGet("Export")]
+        [Authorize] 
+        public async Task<IActionResult> ExportToExcel()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+             var students = await _context.Student.ToListAsync();
 
+                using var package = new ExcelPackage();
+                var worksheet = package.Workbook.Worksheets.Add("Students");
+
+                worksheet.Cells[1, 1].Value = "ID";
+                worksheet.Cells[1, 2].Value = "ФИО";
+                worksheet.Cells[1, 3].Value = "Телефон";
+                worksheet.Cells[1, 4].Value = "Статус";
+                worksheet.Cells[1, 5].Value = "Время начала заселения";
+                worksheet.Cells[1, 6].Value = "Время окончания заселения";
+                worksheet.Cells[1, 7].Value = "Время заселения";
+
+                for (int i = 0; i < students.Count; i++)
+                {
+                    var s = students[i];
+                    worksheet.Cells[i + 2, 1].Value = s.StudentId;
+                    worksheet.Cells[i + 2, 2].Value = s.StudentName;
+                    worksheet.Cells[i + 2, 3].Value = s.StudentPhone;
+                    worksheet.Cells[i + 2, 4].Value = s.Status;
+                    worksheet.Cells[i + 2, 5].Value = s.CheckInStart?.ToString("g");
+                    worksheet.Cells[i + 2, 6].Value = s.CheckInEnd?.ToString("g");
+                    worksheet.Cells[i + 2, 7].Value = s.CheckInTime?.ToString();
+                }
+
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                var file = package.GetAsByteArray();
+
+                return File(file,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "Отчет по процессу заселения студентов.xlsx");
+            }
+       
         private bool StudentExists(int id)
         {
             return _context.Student.Any(e => e.StudentId == id);

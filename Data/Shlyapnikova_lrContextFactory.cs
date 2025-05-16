@@ -16,9 +16,10 @@ namespace Shlyapnikova_lr.Data
             // Получаем строку подключения для контекста
             var connectionString = configuration.GetConnectionString("Shlyapnikova_lrContext");
 
+
             // Строим и конфигурируем DbContextOptions для контекста
             var optionsBuilder = new DbContextOptionsBuilder<Shlyapnikova_lrContext>();
-            optionsBuilder.UseSqlServer(connectionString);  // Указываем использование SQL Server с соответствующей строкой подключения
+            optionsBuilder.UseNpgsql(connectionString);     // Указываем использование SQL Server с соответствующей строкой подключения
 
             // Возвращаем новый экземпляр контекста с конфигурированными параметрами
             return new Shlyapnikova_lrContext(optionsBuilder.Options);
