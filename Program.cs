@@ -8,6 +8,7 @@ using Shlyapnikova_lr.Models;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using OfficeOpenXml;
+using Shlyapnikova_lr.Hubs;
 
 
 namespace Shlyapnikova_lr
@@ -33,14 +34,16 @@ namespace Shlyapnikova_lr
                 {
                     policy.WithOrigins("http://localhost:4200") // URL вашего Angular приложения
                           .AllowAnyHeader()
-                          .AllowAnyMethod();
+                          .AllowAnyMethod()
+                          .AllowCredentials();
                 });
             });
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+            builder.Services.AddSignalR();
+       
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
@@ -73,22 +76,18 @@ namespace Shlyapnikova_lr
             app.UseCors("AllowSpecificOrigin");
             app.UseHttpsRedirection();
 
+
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.MapHub<StudentHub>("/studentHub");
 
             app.Run();
 
 
 
         }
-
-        //public static IHostBuilder CreateHostBuilder(string[] args) =>
-        //    Host.CreateDefaultBuilder(args)
-        //        .ConfigureWebHostDefaults(webBuilder =>
-        //        {
-        //            //webBuilder.UseStartup<Startup>();
-        //        });
     }
 }

@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using Shlyapnikova_lr.Data;
 using Shlyapnikova_lr.Models;
+using Shlyapnikova_lr.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Shlyapnikova_lr.Controllers
 {
@@ -17,10 +19,16 @@ namespace Shlyapnikova_lr.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly Shlyapnikova_lrContext _context;
-
-        public StudentsController(Shlyapnikova_lrContext context)
+        private readonly IHubContext<StudentHub> _hubContext;
+        public StudentsController(Shlyapnikova_lrContext context, IHubContext<StudentHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
+        }
+
+        private async Task NotifyClients()
+        {
+            await _hubContext.Clients.All.SendAsync("StudentsUpdated");
         }
 
         // GET: api/Students
@@ -61,6 +69,7 @@ namespace Shlyapnikova_lr.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                await NotifyClients();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -85,6 +94,7 @@ namespace Shlyapnikova_lr.Controllers
         {
             _context.Student.Add(student);
             await _context.SaveChangesAsync();
+            await NotifyClients();
 
             return CreatedAtAction("GetStudent", new { id = student.StudentId }, student);
         }
@@ -102,6 +112,7 @@ namespace Shlyapnikova_lr.Controllers
 
             _context.Student.Remove(student);
             await _context.SaveChangesAsync();
+            await NotifyClients();
 
             return NoContent();
         }
@@ -138,6 +149,7 @@ namespace Shlyapnikova_lr.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                await NotifyClients();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -183,6 +195,7 @@ namespace Shlyapnikova_lr.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                await NotifyClients();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -222,6 +235,7 @@ namespace Shlyapnikova_lr.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                await NotifyClients();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -275,8 +289,8 @@ namespace Shlyapnikova_lr.Controllers
                 return File(file,
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     "Отчет по процессу заселения студентов.xlsx");
-            }
-       
+        }
+
         private bool StudentExists(int id)
         {
             return _context.Student.Any(e => e.StudentId == id);
