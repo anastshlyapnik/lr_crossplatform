@@ -33,7 +33,7 @@ namespace Shlyapnikova_lr.Controllers
 
         // GET: api/Students
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudent()
         {
             return await _context.Student.ToListAsync();
@@ -41,7 +41,7 @@ namespace Shlyapnikova_lr.Controllers
 
         // GET: api/Students/5
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
             var student = await _context.Student.FindAsync(id);
@@ -257,7 +257,7 @@ namespace Shlyapnikova_lr.Controllers
         public async Task<IActionResult> ExportToExcel()
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-             var students = await _context.Student.ToListAsync();
+             var students = await _context.Student.OrderBy(s => s.StudentId).ToListAsync();
 
                 using var package = new ExcelPackage();
                 var worksheet = package.Workbook.Worksheets.Add("Students");
@@ -276,10 +276,10 @@ namespace Shlyapnikova_lr.Controllers
                     worksheet.Cells[i + 2, 1].Value = s.StudentId;
                     worksheet.Cells[i + 2, 2].Value = s.StudentName;
                     worksheet.Cells[i + 2, 3].Value = s.StudentPhone;
-                    worksheet.Cells[i + 2, 4].Value = s.Status;
+                    worksheet.Cells[i + 2, 4].Value = GetStatusName(s.Status);
                     worksheet.Cells[i + 2, 5].Value = s.CheckInStart?.ToString("g");
                     worksheet.Cells[i + 2, 6].Value = s.CheckInEnd?.ToString("g");
-                    worksheet.Cells[i + 2, 7].Value = s.CheckInTime?.ToString();
+                    worksheet.Cells[i + 2, 7].Value = s.CheckInTime?.ToString(@"hh\:mm\:ss");
                 }
 
                 worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
@@ -289,6 +289,17 @@ namespace Shlyapnikova_lr.Controllers
                 return File(file,
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     "Отчет по процессу заселения студентов.xlsx");
+        }
+
+        string GetStatusName(int status)
+        {
+            return status switch
+            {
+                0 => "Ожидайте",
+                1 => "Поднимайтесь",
+                2 => "Заселяется",
+                3 => "Заселён"
+            };
         }
 
         private bool StudentExists(int id)
